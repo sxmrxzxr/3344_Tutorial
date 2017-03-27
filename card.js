@@ -8,7 +8,7 @@ function MakeCardFw() {
     
     var app ={};
     
-    var $ = function(ele) {
+    var _$ = function(ele) {
         return document.getElementById(ele);
     };
     
@@ -22,18 +22,27 @@ function MakeCardFw() {
         params.title = params.title || "Default Title";
         params.desc = params.desc || "Default Description";
         
-        var card = document.getElementById(params.id);
+        var card = _$(params.id);
         
         var imgSpan = document.createElement("img");
         imgSpan.src = params.image;
         imgSpan.height = "400";
-        imgSpan.width = "400";
         
         var textSpan = document.createElement("span");
-        textSpan.innerHTML = "<div class='container'><h3>" + params.title + "</h3><p>" + params.desc + "</p></div>";
+        textSpan.innerHTML = "<h3>" + params.title + "</h3><p>" + params.desc + "</p>";
         
         card.appendChild(imgSpan);
-        card.appendChild(textSpan);        
+        //card.appendChild(textSpan);
+        
+        $(document).ready(function () {
+            var overlay = $("<div class='overlay'>" + textSpan.innerHTML + "</div>");
+            $(card).mouseenter(function () {
+                $(this).append($(overlay.show()));
+            });
+            $(card).mouseleave(function () {
+                overlay.hide();
+            });
+        });        
     };
     
     return app;
